@@ -19,13 +19,31 @@ cookie_dict = {
 
 bard = BardCookies(cookie_dict=cookie_dict)
 
-data = bard.get_answer("Generate a very short, personalised and creative advertisement for a coding course of DATA structures AND ALGORITHMS  by coding ninjas. Customer Name - Siddhesh, Customer Interest - Cricket. Generate four lines and escape the begining part where you brief about the prompt.")
+# data = bard.get_answer("Generate a very short, personalised and creative advertisement for a coding course of DATA structures AND ALGORITHMS  by coding ninjas. Customer Name - Siddhesh, Customer Interest - Cricket. Generate four lines and escape the begining part where you brief about the prompt.")
 
+# content = data['content']
+# content_without_asterisks = content.replace('*', '')
+
+# text = content_without_asterisks
+# heading = "Coding Course"
+
+def create_prompt_from_description(customer_name, customer_interests, product_name, delivery_platform="WhatsApp"):
+    prompt = "Generate a creative personalized according to customer's interests' short text-based advertisement to " \
+             "be delivered on '" + delivery_platform + "' including emojis for the product - '" + product_name +  \
+            "'. The advertisement is to be delivered to the customer named '" + customer_name + \
+             "' whose interests are as follows - '" + customer_interests + "'. No need of Hashtags. No need of product " \
+            "link. Start with response directly. "
+
+    return prompt
+
+heading = "Coding Course"
+query = create_prompt_from_description("Samarth", "loves to play cricket", heading)
+data = bard.get_answer(query)
 content = data['content']
 content_without_asterisks = content.replace('*', '')
 
 text = content_without_asterisks
-heading = "Coding Course"
+
 
 def put_text(img, text, x_value, y_value):
     font = cv2.FONT_HERSHEY_DUPLEX
@@ -107,7 +125,7 @@ def overlay_images(background_image_path, overlay_image_path, x_position, y_posi
 # random_number = random.uniform(1, 5)
 # n = str(random_number)
 # num = "image" + n + ".jpg"
-img = cv2.imread("image3.jpg")
+img = cv2.imread("image1.jpg")
 put_text(img, text, 400, 450)
 cv2.imwrite("output.jpg", img)
 img2 = cv2.imread("output.jpg")
@@ -117,11 +135,10 @@ img3 = overlay_images('output2.jpg', 'coding.jpg', 40, 650)
 cv2.imwrite("final.jpg", img3)
 
 ad = "final.jpg"
+ 
 
-
-# Set your email and password
 sender_email = 'samarth.bura21@vit.edu'
-sender_password = os.getenv("Email_password"),
+sender_password = os.getenv("Email_password")
 
 # Set the recipient email address
 recipient_email = 'samarthvbura@gmail.com'
@@ -130,12 +147,13 @@ recipient_email = 'samarthvbura@gmail.com'
 message = MIMEMultipart()
 message['From'] = sender_email
 message['To'] = recipient_email
-message['Subject'] = 'Subject of the Email'
+message['Subject'] = heading
 
 # Attach the email body
 body = 'This is the body of the email.'
 message.attach(MIMEText(body, 'plain'))
 
+# Attach the image (change 'path/to/your/image.jpg' to the actual path of your image file)
 image_path = 'final.jpg'
 with open(image_path, 'rb') as image_file:
     image_data = image_file.read()
